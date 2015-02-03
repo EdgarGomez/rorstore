@@ -18,6 +18,6 @@ class Book < ActiveRecord::Base
 	validates :image, attachment_presence: true
 	validates :resource, attachment_presence: true
 
-	validate_numericality_of :price,
-	greater_than: 49, message: "Must be al least 50 cents."
+	#validate_numericality_of :price,
+	#greater_than: 49, message: "Must be al least 50 cents."
 end

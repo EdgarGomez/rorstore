@@ -5,13 +5,13 @@ class TransactionsController < ApplicationController
 
 		begin
 			charge = Stripe::Charge.create(
-				amount: book.price,
-				currency: "eur",
+				amount: book.price.to_i,
+				currency: "usd",
 				card: token,
 				description: current_user.email)
 			@sale = book.sales.create!(
-				buyer_email: current_user_email)
-			redirect_to pickup_url(guid: @sale.guid)
+				buyer_email: current_user.email)
+			redirect_to pickup_url(guid_string: @sale.guid_string)
 
 		rescue Stripe::CardError => e
 			@error = e
@@ -20,7 +20,7 @@ class TransactionsController < ApplicationController
 	end
 
 	def pickup
-		@sale = Sale.find_by!(guid: params[:guid])
+		@sale = Sale.find_by!(guid_string: params[:guid_string])
 		@book = @sale.book
 	end
 end
